@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Даниил и Юрий: мечты и суперсилы 🍌</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #FFE86E;  /* сочный жёлтый фон */
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            line-height: 1.3;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Основной контент — поверх декоративных бананов */
+        .content {
+            max-width: 1300px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ======= ЗАГОЛОВКИ И ТЕКСТ ======= */
+        h1 {
+            font-size: 4.2rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #2C2B2B 0%, #4A2A0A 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 6px 6px 0 rgba(0,0,0,0.05);
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .subhead {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #3B2A1F;
+            background: rgba(255,248,205,0.7);
+            display: inline-block;
+            padding: 0.4rem 1.6rem;
+            border-radius: 60px;
+            backdrop-filter: blur(2px);
+            margin-bottom: 2.5rem;
+        }
+
+        /* Карточки (круглые углы) */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin: 2rem 0 3rem;
+        }
+
+        .card {
+            background: #FFFEF7;
+            border-radius: 48px;          /* крупные круглые углы */
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.25);
+            padding: 2.2rem 2rem 2.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s;
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255,215,0,0.4);
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 32px 55px -15px rgba(0,0,0,0.3);
+        }
+
+        /* крупные шрифты внутри карточек */
+        .card h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+            color: #2C2B2B;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            font-size: 1.2rem;
+            background: #FFE86E;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-weight: 700;
+            color: #3B2A1F;
+            display: inline-block;
+        }
+
+        .info-line {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 1.2rem 0 0.8rem;
+            color: #D97A0C;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .info-text {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #2E2A24;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .superpower {
+            background: #FEF1CF;
+            border-radius: 40px;
+            padding: 0.9rem 1.3rem;
+            margin-top: 1rem;
+            font-weight: 700;
+            font-size: 1.35rem;
+            display: inline-block;
+            width: auto;
+        }
+
+        .dream-box {
+            margin-top: 1.8rem;
+            border-top: 2px dashed #FFC107;
+            padding-top: 1.5rem;
+        }
+
+        .dream-text {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #BB5E00;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .emoji-big {
+            font-size: 2.3rem;
+        }
+
+        /* декоративная секция с бананом */
+        .banana-quote {
+            background: rgba(255,235,140,0.6);
+            border-radius: 60px;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            backdrop-filter: blur(4px);
+            border: 1px solid #FFD966;
+        }
+
+        /* ===== НАРИСОВАННЫЕ БАНАНЫ (SVG + анимация) ===== */
+        .decor-banana {
+            position: absolute;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.85;
+            transition: transform 0.3s ease;
+        }
+
+        /* анимация покачивания для живого эффекта */
+        @keyframes floatBanana {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(3deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        .float-anim {
+            animation: floatBanana 6s infinite ease-in-out;
+        }
+
+        .float-anim-delayed {
+            animation: floatBanana 7s infinite ease-in-out reverse;
+        }
+
+        /* разные позиции и размеры бананов */
+        .banana-1 { top: 3%; left: -2%; width: 110px; transform: rotate(-10deg); }
+        .banana-2 { bottom: 5%; right: 1%; width: 140px; transform: rotate(25deg); }
+        .banana-3 { top: 20%; right: 5%; width: 85px; transform: rotate(15deg); }
+        .banana-4 { bottom: 18%; left: -3%; width: 100px; transform: rotate(-20deg); }
+        .banana-5 { top: 45%; left: 4%; width: 75px; transform: rotate(5deg); }
+        .banana-6 { bottom: 35%; right: 8%; width: 95px; transform: rotate(-8deg); }
+        .banana-7 { top: 70%; left: 85%; width: 70px; transform: rotate(40deg); }
+
+        /* адаптация: на маленьких экранах бананы чуть мельче и не блокируют текст */
+        @media (max-width: 800px) {
+            body { padding: 1.5rem; }
+            h1 { font-size: 2.8rem; }
+            .card h2 { font-size: 2.4rem; }
+            .info-line { font-size: 1.5rem; }
+            .info-text { font-size: 1.25rem; }
+            .dream-text { font-size: 1.4rem; }
+            .subhead { font-size: 1.2rem; }
+            .decor-banana { opacity: 0.5; width: 70px; }
+            .banana-1, .banana-4 { left: -5%; }
+            .banana-2, .banana-6 { right: -3%; }
+        }
+
+        @media (max-width: 550px) {
+            .decor-banana { opacity: 0.4; width: 60px; }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #4F3E2C;
+            background: rgba(255,248,210,0.7);
+            padding: 1rem;
+            border-radius: 60px;
+            backdrop-filter: blur(4px);
+        }
+
+        .rounded-sm {
+            border-radius: 36px;
+        }
+
+        hr {
+            margin: 1rem 0;
+            border: 1px solid #FFD966;
+        }
+
+        button {
+            background: none;
+            border: none;
+        }
+
+        .code-icon {
+            background: #2D2A24;
+            color: #FFE86E;
+            padding: 0.2rem 0.6rem;
+            border-radius: 24px;
+            font-family: monospace;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========= НАРИСОВАННЫЕ БАНАНЫ (SVG) - декоративные элементы, плавают по всей странице ========= -->
+    <!-- Банан 1 -->
+    <div class="decor-banana banana-1 float-anim">
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M18,42 C18,22 55,18 68,38 C80,56 68,80 48,82 C28,84 20,65 18,42Z" fill="#FFE82E" stroke="#B57C1C" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M62,32 L82,18 L78,24 L65,35Z" fill="#8B5A2B" stroke="#5C3A0E" stroke-width="1.2"/>
+            <circle cx="38" cy="55" r="2.2" fill="#B57C1C" opacity="0.6"/>
+            <circle cx="52" cy="62" r="1.8" fill="#B57C1C" opacity="0.5"/>
+        </svg>
+    </div>
+    <!-- Банан 2 -->
+    <div class="decor-banana banana-2 float-anim-delayed">
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M20,38 C24,16 58,14 72,32 C86,50 70,78 48,80 C26,82 18,58 20,38Z" fill="#FFE135" stroke="#B57C1C" stroke-width="2.2"/>
+            <path d="M65,28 L88,15 L84,22 L70,34Z" fill="#8B5A2B" stroke="#4E2F12" stroke-width="1.5"/>
+            <circle cx="35" cy="50" r="2" fill="#B57C1C" opacity="0.7"/>
+        </svg>
+    </div>
+    <!-- Банан 3 -->
+    <div class="decor-banana banana-3 float-anim">
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M22,45 C26,24 60,22 72,40 C84,58 66,79 44,78 C22,77 18,60 22,45Z" fill="#FFDD44" stroke="#A56717" stroke-width="2"/>
+            <path d="M64,35 L80,23 L77,28 L66,38Z" fill="#8B5A2B"/>
+        </svg>
+    </div>
+    <!-- Банан 4 -->
+    <div class="decor-banana banana-4 float-anim-delayed">
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M15,40 C15,18 52,16 66,36 C80,56 65,82 45,84 C25,86 19,62 15,40Z" fill="#FFE86E" stroke="#BF751C" stroke-width="2.3"/>
+            <path d="M60,30 L84,18 L80,26 L65,36Z" fill="#8B5A2B"/>
+            <circle cx="30" cy="52" r="2.5" fill="#9B6A25" opacity="0.5"/>
+        </svg>
+    </div>
+    <!-- Банан 5 (маленький) -->
+    <div class="decor-banana banana-5 float-anim">
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M24,42 C28,24 58,23 70,40 C82,57 66,76 46,77 C26,78 20,57 24,42Z" fill="#FFD93D" stroke="#B26B15" stroke-width="2"/>
+            <path d="M63,32 L82,21 L79,27 L66,36Z" fill="#7C4A1A"/>
+        </svg>
+    </div>
+    <!-- Банан 6 (с подписным стилем) -->
+    <div class="decor-banana banana-6 float-anim-delayed">
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M17,44 C21,22 59,19 73,39 C87,59 69,81 47,82 C25,83 19,62 17,44Z" fill="#FFE069" stroke="#BA6F1E" stroke-width="2.4"/>
+            <path d="M64,33 L86,19 L82,26 L67,37Z" fill="#804D1A"/>
+        </svg>
+    </div>
+    <!-- Банан 7 (верхний правый) -->
+    <div class="decor-banana banana-7 float-anim">
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+            <path d="M18,40 C22,21 54,19 67,37 C80,55 65,78 45,80 C25,82 19,60 18,40Z" fill="#FFD966" stroke="#C27A1C" stroke-width="2"/>
+            <path d="M60,31 L82,17 L79,23 L66,33Z" fill="#8B5A2B"/>
+        </svg>
+    </div>
+
+    <!-- Основной контент сайта -->
+    <div class="content">
+        <header>
+            <h1>🍌 Даниил + Юрий 🍌</h1>
+            <div class="subhead">Семья, где рождаются мечты и живут суперспособности</div>
+        </header>
+
+        <!-- карточки о ребёнке и родителе (круглые углы, крупные шрифты) -->
+        <div class="cards-grid">
+            <!-- Карточка Даниила (ребёнок) -->
+            <div class="card">
+                <h2>✨ Даниил ✨</h2>
+                <div class="info-line">
+                    <span>🎂 10 лет</span>
+                    <span class="badge">юный гений</span>
+                </div>
+                <div class="info-text">
+                    Любознательный, смелый и уже точно знает, кем хочет стать! 🚀
+                </div>
+                <div class="dream-box">
+                    <div class="dream-text">
+                        <span class="emoji-big">💻⚡</span> 
+                        <span>МЕЧТА: стать программистом!</span>
+                    </div>
+                    <div class="info-text" style="margin-top: 0.8rem; font-weight: 500;">
+                        Создавать крутые игры, полезные приложения и менять мир с помощью кода.
+                        Уже изучает Python и мечтает о своей первой нейросети. 🧠
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <span class="code-icon">&lt;code&gt;  println("Hello, world!")  &lt;/code&gt;</span>
+                    </div>
+                </div>
+                <div class="superpower">
+                    ⚡ Суперсила Даниила: упорство и вера в технологии!
+                </div>
+            </div>
+
+            <!-- Карточка Юрия (родитель) -->
+            <div class="card">
+                <h2>🧠 Юрий 🧠</h2>
+                <div class="info-line">
+                    <span>👨‍👦 Папа & наставник</span>
+                    <span class="badge">энциклопедия</span>
+                </div>
+                <div class="info-text">
+                    Настоящий ходячий архив знаний — от динозавров до квантовых вычислений.
+                </div>
+                <div class="dream-box">
+                    <div class="dream-text" style="border-top: none; padding-top: 0;">
+                        <span class="emoji-big">🦸‍♂️🌟</span> 
+                        <span>СУПЕРСПОСОБНОСТЬ:</span>
+                    </div>
+                    <div style="background: #F9EEC1; border-radius: 48px; padding: 1rem 1.5rem; margin-top: 0.7rem;">
+                        <span style="font-size: 2rem; font-weight: 800; display: block; color: #AD5A1A;">ЗНАЕТ ВСЁ ОБО ВСЁМ</span>
+                        <div class="info-text" style="margin-top: 0.6rem; margin-bottom: 0;">
+                            🔍 Может объяснить чёрные дыры, историю бананов, тонны программирования 
+                            и даже подсказать, как лучше всего сделать блочный макет. 
+                            Папины лекции — это маленький шедевр!
+                        </div>
+                    </div>
+                </div>
+                <div class="superpower" style="margin-top: 0.8rem;">
+                    🧬 Любимая фраза: «Интересно? Сейчас расскажу всё, что знаю!»
+                </div>
+            </div>
+        </div>
+
+        <!-- дополнительная стильная вставка с бананами и настроением -->
+        <div class="banana-quote">
+            <span>🍌🍌🍌</span>
+            <span>«Мечта Даниила + суперсила Юрия = Космический успех!»</span>
+            <span>🍌🍌🍌</span>
+        </div>
+
+        <!-- маленький блок про банановую связь (поддерживаем тему) -->
+        <div style="display: flex; justify-content: center; margin: 2rem 0 0.5rem;">
+            <div style="background-color: #FFF1B5; border-radius: 60px; padding: 0.8rem 1.8rem; font-size: 1.4rem; font-weight: 700; color: #7A490F;">
+                🍌 Нарисованные бананы повсюду — ведь это фрукт вдохновения! 🍌
+            </div>
+        </div>
+
+        <footer>
+            <p style="font-size: 1.2rem;">✨ Даниил мечтает стать программистом, а Юрий знает всё на свете — идеальный тандем ✨</p>
+            <p style="margin-top: 0.5rem;">🍌 Жёлтый фон, круглые углы, крупные шрифты и целая роща рисованных бананов для хорошего настроения 🍌</p>
+        </footer>
+    </div>
+
+    <!-- небольшой скрипт для плавного появления декора (необязательный, но пусть будет для лёгкого эффекта) -->
+    <script>
+        // просто для стиля: добавляем класс к бананам, чтобы они сразу начали анимироваться (но они уже имеют классы float-anim)
+        // Можно добавить мини-интерактив: при клике на карточку лёгкий "банановый" звук? но нет, оставляем чистый визуал.
+        // дополнительно убедимся, что все декоративные бананы не мешают чтению
+        console.log("🍌 Сайт о семье, где рождаются программисты и всезнающие супергерои!");
+    </script>
+</body>
+</html>
